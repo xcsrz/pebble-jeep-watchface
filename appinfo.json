@@ -1,0 +1,29 @@
+{
+  "uuid": "2c3e3423-27bf-47af-87df-0e050702482a",
+  "shortName": "Jeep Face",
+  "longName": "Jeep Face",
+  "companyName": "xcsrz",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["basalt"],
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+      {
+        "file": "images/forest.png",
+        "name": "IMAGE_FOREST",
+        "type": "png"
+      },
+      {
+        "file": "images/jeep_logo1.png",
+        "name": "IMAGE_LOGO",
+        "type": "png"
+      }
+    ]
+  }
+}
