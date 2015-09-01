@@ -18,7 +18,8 @@ static GFont s_font;
 
 static void update_my_clock() {
 	static char s_buffer[128];
-	snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\nPM", s_time.hours, s_time.minutes, s_time.seconds );
+	// char *tail = (s_time.pm) ? "PM" : "AM";
+	snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
 	// snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\nPM", 24, 88, 88 );
     APP_LOG(APP_LOG_LEVEL_DEBUG, s_buffer);
 	text_layer_set_text(s_clock_layer, s_buffer);
@@ -34,12 +35,7 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
         s_time.hours = 12;
     }
     s_time.minutes = tick_time->tm_min;
-    if(s_show_seconds){
-        s_time.seconds = tick_time->tm_sec;
-    }
-    if(s_clock_layer) {
-        layer_mark_dirty(text_layer_get_layer(s_clock_layer));
-    }
+    s_time.seconds = tick_time->tm_sec;
     update_my_clock();
 }
 
