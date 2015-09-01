@@ -18,9 +18,7 @@ static GFont s_font;
 
 static void update_my_clock() {
 	static char s_buffer[128];
-	// char *tail = (s_time.pm) ? "PM" : "AM";
 	snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
-	// snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\nPM", 24, 88, 88 );
     APP_LOG(APP_LOG_LEVEL_DEBUG, s_buffer);
 	text_layer_set_text(s_clock_layer, s_buffer);
 }
@@ -48,7 +46,6 @@ void digital_clock_load(Window *main_window) {
 
     s_clock_layer = text_layer_create(GRect(0, bounds.size.h - 55, bounds.size.w, 50));
 
-	// text_layer_set_font(s_clock_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
 	text_layer_set_font(s_clock_layer, s_font);
 
 
