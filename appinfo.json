@@ -23,6 +23,11 @@
         "file": "images/jeep_logo1.png",
         "name": "IMAGE_LOGO",
         "type": "png"
+      },
+      {
+        "type": "font",
+        "name": "FONT_BLACK_OPS_26",
+        "file": "BlackOpsOne-Regular.ttf"
       }
     ]
   }

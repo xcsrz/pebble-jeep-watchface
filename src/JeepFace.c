@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "binary_clock.h"
+#include "digital_clock.h"
 #include "indicators.h"
 
 
@@ -113,7 +114,11 @@ static void windshield_proc(Layer *layer, GContext *ctx) {
 static void window_load() {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "inside window_load()");
     // screen size 144 x 168
-    binary_clock_load(window);
+    if(true) {
+        digital_clock_load(window);
+    } else {
+        binary_clock_load(window);
+    }
 
     Layer *window_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(window_layer);
@@ -133,6 +138,7 @@ static void window_load() {
 }
 
 static void window_unload() {
+    digital_clock_unload();
     binary_clock_unload();
     indicators_unload();
 

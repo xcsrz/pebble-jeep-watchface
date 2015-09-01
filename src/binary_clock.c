@@ -49,8 +49,6 @@ static void draw_a_row(GContext *ctx, int y, int val) {
 }
 
 static void update_my_dots(Layer *layer, GContext *ctx) {
-
-
     draw_a_row(ctx, s_hours_y, s_time.hours);
     draw_a_row(ctx, s_minutes_y, s_time.minutes);
     if(s_show_seconds) {   
@@ -98,7 +96,11 @@ void binary_clock_load(Window *main_window) {
     layer_set_update_proc(s_dots_layer, update_my_dots);
     layer_add_child(window_layer, s_dots_layer);
 
-    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+    if(s_show_seconds) {
+        tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+    } else {
+        tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+    }
 
 }
 
