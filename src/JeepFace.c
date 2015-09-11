@@ -1,11 +1,12 @@
 #include <pebble.h>
 #include "binary_clock.h"
 #include "digital_clock.h"
+#include "morse_clock.h"
 #include "indicators.h"
+#include "settings.h"
 
 
 static Window *window;
-
 
 static Layer *s_top_layer;
 static Layer *s_grill_layer;
@@ -112,10 +113,13 @@ static void windshield_proc(Layer *layer, GContext *ctx) {
 }
 
 static void window_load() {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "inside window_load()");
+    // APP_LOG(APP_LOG_LEVEL_DEBUG, "inside window_load()");
+    // settings_load(window);
     // screen size 144 x 168
-    if(true) {
+    if(false) {
         digital_clock_load(window);
+    } else if (true) {
+        morse_clock_load(window);
     } else {
         binary_clock_load(window);
     }
@@ -140,7 +144,9 @@ static void window_load() {
 static void window_unload() {
     digital_clock_unload();
     binary_clock_unload();
+    morse_clock_load();
     indicators_unload();
+    // settings_unload();
 
     layer_destroy(s_grill_layer);
 

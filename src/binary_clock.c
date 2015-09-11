@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "settings.h"
 
 #define     BOX_GAP         4
 #define     CLOCK_HEIGHT    45
@@ -16,7 +17,6 @@ static Time s_time;
 
 static int s_box_width;
 static int s_box_height;
-static bool s_show_seconds = false;
 static int s_hours_y;
 static int s_minutes_y;
 static int s_seconds_y;

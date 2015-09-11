@@ -12,6 +12,9 @@
   "appKeys": {
     "dummy": 0
   },
+  "capabilities": [
+      "configurable"
+  ],
   "resources": {
     "media": [
       {
