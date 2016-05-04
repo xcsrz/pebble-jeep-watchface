@@ -1,5 +1,6 @@
 
 #include <pebble.h>
+#include "settings.h"
 
 static TextLayer *s_clock_layer;
 
@@ -11,15 +12,20 @@ typedef struct {
 } Time;
 
 static Time s_time;
-static bool s_show_seconds = true;
+// static bool s_show_seconds = true;
 static GFont s_font;
 
 
 
 static void update_my_clock() {
 	static char s_buffer[128];
-	snprintf(s_buffer, sizeof(s_buffer), "%d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
-    APP_LOG(APP_LOG_LEVEL_DEBUG, s_buffer);
+    text_layer_set_text_color(s_clock_layer, time_color);
+    if(show_seconds) {
+        snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
+    } else {
+    	snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d\n%s", s_time.hours, s_time.minutes, (s_time.pm) ? "PM" : "AM" );
+    }
+    // APP_LOG(APP_LOG_LEVEL_DEBUG, s_buffer);
 	text_layer_set_text(s_clock_layer, s_buffer);
 }
 
@@ -48,13 +54,13 @@ void digital_clock_load(Window *main_window) {
 
 	text_layer_set_font(s_clock_layer, s_font);
 
-
-	text_layer_set_text(s_clock_layer, "No data yet.");
+	text_layer_set_text(s_clock_layer, "checking time");
 	text_layer_set_overflow_mode(s_clock_layer, GTextOverflowModeWordWrap);
 	text_layer_set_text_alignment(s_clock_layer, GTextAlignmentCenter);
+    text_layer_set_background_color(s_clock_layer,GColorClear);
     layer_add_child(window_layer, text_layer_get_layer(s_clock_layer));
 
-    if(s_show_seconds) {
+    if(show_seconds) {
         tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
     } else {
         tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
@@ -62,5 +68,7 @@ void digital_clock_load(Window *main_window) {
 }
 
 void digital_clock_unload() {
+    tick_timer_service_unsubscribe();
+    settings_unload();
 	text_layer_destroy(s_clock_layer);
 }

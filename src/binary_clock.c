@@ -51,7 +51,7 @@ static void draw_a_row(GContext *ctx, int y, int val) {
 static void update_my_dots(Layer *layer, GContext *ctx) {
     draw_a_row(ctx, s_hours_y, s_time.hours);
     draw_a_row(ctx, s_minutes_y, s_time.minutes);
-    if(s_show_seconds) {   
+    if(show_seconds) {   
         draw_a_row(ctx, s_seconds_y, s_time.seconds);
     }
 }
@@ -63,7 +63,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
         s_time.hours = 12;
     }
     s_time.minutes = tick_time->tm_min;
-    if(s_show_seconds){
+    if(show_seconds){
         s_time.seconds = tick_time->tm_sec;
     }
 
@@ -81,7 +81,7 @@ void binary_clock_load(Window *main_window) {
 	s_box_width = (bounds.size.w - (7 * BOX_GAP)) / 6;
 
     // determine where the rows will be
-    if(s_show_seconds) {
+    if(show_seconds) {
         s_box_height = (CLOCK_HEIGHT - 3*BOX_GAP) / 3;
         s_hours_y = bounds.size.h - CLOCK_HEIGHT;
         s_minutes_y = s_hours_y + s_box_height + BOX_GAP;
@@ -96,7 +96,7 @@ void binary_clock_load(Window *main_window) {
     layer_set_update_proc(s_dots_layer, update_my_dots);
     layer_add_child(window_layer, s_dots_layer);
 
-    if(s_show_seconds) {
+    if(show_seconds) {
         tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
     } else {
         tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
@@ -105,5 +105,7 @@ void binary_clock_load(Window *main_window) {
 }
 
 void binary_clock_unload() {
+    tick_timer_service_unsubscribe();
+    settings_unload();
     layer_destroy(s_dots_layer);
 }

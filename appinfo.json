@@ -10,7 +10,12 @@
     "watchface": true
   },
   "appKeys": {
-    "dummy": 0
+    "type": 0,
+    "model": 1,
+    "seconds": 2,
+    "jeepColor": 3,
+    "timeColor": 4,
+    "bgColor": 5
   },
   "capabilities": [
       "configurable"

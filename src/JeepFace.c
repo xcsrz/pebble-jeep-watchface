@@ -4,11 +4,14 @@
 #include "morse_clock.h"
 #include "indicators.h"
 #include "settings.h"
+#include "watchface.h"
+#include "enums.h"
 
 
 static Window *window;
 
 static Layer *s_top_layer;
+static Layer *s_background_layer;
 static Layer *s_grill_layer;
 static GBitmap *s_forest_image;
 static GBitmap *s_logo_image;
@@ -86,9 +89,10 @@ static void grill_proc(Layer *layer, GContext *ctx) {
     }
 }
 
+
 static void windshield_proc(Layer *layer, GContext *ctx) {
     // fill it first
-    graphics_context_set_fill_color(ctx, GColorArmyGreen);
+    graphics_context_set_fill_color(ctx, jeep_color);
     gpath_draw_filled(ctx,s_windshield_path);
     // now stroke it
     graphics_context_set_stroke_width(ctx, 1);
@@ -98,7 +102,7 @@ static void windshield_proc(Layer *layer, GContext *ctx) {
     // glass
     graphics_context_set_fill_color(ctx, GColorBlack);
     graphics_fill_rect(ctx, GRect(4, 4, 136, 50), 3, GCornersAll);
-    graphics_context_set_fill_color(ctx, GColorWhite);
+    graphics_context_set_fill_color(ctx, background_color);
     graphics_fill_rect(ctx, GRect(5, 5, 134, 48), 3, GCornersAll);
 
 
@@ -114,19 +118,12 @@ static void windshield_proc(Layer *layer, GContext *ctx) {
 
 static void window_load() {
     // APP_LOG(APP_LOG_LEVEL_DEBUG, "inside window_load()");
-    // settings_load(window);
+    settings_load(window);
     // screen size 144 x 168
-    if(false) {
-        digital_clock_load(window);
-    } else if (true) {
-        morse_clock_load(window);
-    } else {
-        binary_clock_load(window);
-    }
+    watchface_load(window);
 
     Layer *window_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(window_layer);
-    
 
     s_windshield_path = gpath_create(&WINDSHIELD_PATH_INFO);
 
@@ -142,12 +139,15 @@ static void window_load() {
 }
 
 static void window_unload() {
-    digital_clock_unload();
-    binary_clock_unload();
-    morse_clock_load();
+    // digital_clock_unload();
+    // binary_clock_unload();
+    // morse_clock_load();
+    watchface_unload();
     indicators_unload();
-    // settings_unload();
+    settings_unload();
 
+    layer_destroy(s_top_layer);
+    layer_destroy(s_background_layer);
     layer_destroy(s_grill_layer);
 
     gpath_destroy(s_windshield_path);
@@ -161,12 +161,13 @@ static void init() {
         .unload = window_unload,
     });
 
-    const bool animated = true;
-    window_stack_push(window, animated);
+    window_stack_push(window, true);
 
     s_forest_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_FOREST);
     s_logo_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_LOGO);
 
+    app_message_register_inbox_received(app_message_received);
+    app_message_open(app_message_inbox_size_maximum(),app_message_outbox_size_maximum());
 }
 
 static void deinit() {

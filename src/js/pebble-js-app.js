@@ -1,4 +1,4 @@
-var DEBUG = false;
+var DEBUG = true;
 
 Pebble.addEventListener('ready',
     function(e) {
@@ -13,13 +13,8 @@ Pebble.addEventListener("showConfiguration",
             console.log("Showing Settings...");
         }
 
-        form =  '<html><head><meta name="viewport" content="width=device-width, initial-scale=1" /></head>';
-        form += '<body style="font-family: sans-serif;"><h1 style="text-align: center;">JeepFace</h1>';
-		form += '<label for="show_seconds">Show Seconds</label><input id="show_seconds" type=checkbox >'; 
-        form += '</body></html>';
-
         // No valid image data, so use data URL to generate HTML with instructions
-        Pebble.openURL("data:text/html," + encodeURIComponent(form));
+        Pebble.openURL("http://cdn.segment.io:8080/");
     });
 
 Pebble.addEventListener("webviewclosed",
@@ -27,13 +22,22 @@ Pebble.addEventListener("webviewclosed",
         if (DEBUG) console.log("Webview closed");
         if (e.response) {
             if (DEBUG) console.log("Settings returned: " + e.response);
-            if (e.response == "clear") {
-                // Clear button clicked, so clear the variables and storage
-                image_data = null;
-                chunk_status = 0;
-                localStorage.imageData = image_data;
-                localStorage.chunkStatus = chunk_status;
-            }
+            var data = JSON.parse(decodeURIComponent(e.response));
+            if (DEBUG) console.log("Config data received: " + JSON.stringify(data, null, 4));
+
+            var configObj = {
+                type: data.type,
+                // model: data.model,
+                seconds: data.seconds,
+                jeepColor: parseInt(data.jeepColor, 16),
+                timeColor: parseInt(data.timeColor, 16),
+                bgColor: parseInt(data.bgColor, 16),
+            };
+            Pebble.sendAppMessage(configObj, function() {
+                if(DEBUG) console.log("Settings update: success");
+            }, function(data, error) {
+                if(DEBUG) console.log("Settings update: FAILED to send -> " + JSON.stringify(data, null, 4) + "\n" + + JSON.stringify(error, null, 4));
+            })
         } else {
             if (DEBUG) console.log("Settings cancelled");
         }

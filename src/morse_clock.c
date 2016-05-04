@@ -1,8 +1,11 @@
 
 #include <pebble.h>
+#include "settings.h"
 
 static Window *s_window;
 static Layer *s_window_layer;
+static Layer *layers[60];
+static int layers_count = 0;
 
 typedef struct {
 	Layer* A0;
@@ -47,6 +50,13 @@ static void update_position(Position position) {
 
 }
 
+static void unload_position(Position position) {
+	while(layers_count > 0)
+	{
+		layer_destroy(layers[--layers_count]);
+	}
+}
+
 static void update_positions() {
     update_position(s_hour_markers);
     update_position(s_minute_markers);
@@ -56,12 +66,15 @@ static void update_positions() {
 
 static void fill_layer(Layer *layer, GContext *ctx) {
     GRect bounds = layer_get_bounds(layer);
-    graphics_context_set_fill_color(ctx, GColorBlack);
+    graphics_context_set_fill_color(ctx, time_color);
     graphics_fill_rect(ctx, bounds, 3, GCornersAll);
 }
 
+static void track_layer(Layer *layer) {
+	layers[layers_count++] = layer;
+}
 
-Layer* add_marker(int x, int y, int w, int h) {
+static Layer* add_marker(int x, int y, int w, int h) {
 	Layer *hidden_layer = layer_create(GRect(x + w/3, y, w/3, h));
     layer_set_update_proc(hidden_layer, fill_layer);
     layer_add_child(s_window_layer, hidden_layer);
@@ -69,6 +82,10 @@ Layer* add_marker(int x, int y, int w, int h) {
 	Layer *new_layer = layer_create(GRect(x, y, w, h));
     layer_set_update_proc(new_layer, fill_layer);
     layer_add_child(s_window_layer, new_layer);
+
+    track_layer(hidden_layer);
+    track_layer(new_layer);
+
     return new_layer;
 }
 
@@ -112,7 +129,12 @@ void morse_clock_load(Window *main_window) {
 	// layer_set_hidden(second, false);
 
 
-	int size = (bounds.size.w / 6);
+	int size;
+	if(show_seconds) {
+		size = (bounds.size.w / 6);
+	} else {
+		size = (bounds.size.w / 4);
+	}
 
 	// s_test = create_position(size);
 	// s_test.field = &s_time.seconds;
@@ -130,5 +152,8 @@ void morse_clock_load(Window *main_window) {
 }
 
 void morse_clock_unload() {
-
+    tick_timer_service_unsubscribe();
+    unload_position(s_hour_markers);
+    unload_position(s_minute_markers);
+    unload_position(s_second_markers);
 }
