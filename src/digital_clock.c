@@ -31,12 +31,14 @@ static void update_my_clock() {
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     s_time.hours = tick_time->tm_hour;
-    if (s_time.hours > 12) {
-	    s_time.hours -= 12;
-    	s_time.pm = true;
-    }
-    if(s_time.hours == 0) {
-        s_time.hours = 12;
+    if(!twenty_four) {
+        if (s_time.hours > 12) {
+    	    s_time.hours -= 12;
+        	s_time.pm = true;
+        }
+        if(s_time.hours == 0) {
+            s_time.hours = 12;
+        }
     }
     s_time.minutes = tick_time->tm_min;
     s_time.seconds = tick_time->tm_sec;

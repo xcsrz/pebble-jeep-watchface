@@ -28,6 +28,7 @@ Pebble.addEventListener("webviewclosed",
             var configObj = {
                 type: data.type,
                 // model: data.model,
+                twentyFour: data.twentyFour,
                 seconds: data.seconds,
                 jeepColor: parseInt(data.jeepColor, 16),
                 timeColor: parseInt(data.timeColor, 16),

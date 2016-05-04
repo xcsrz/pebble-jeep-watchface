@@ -15,7 +15,8 @@
     "seconds": 2,
     "jeepColor": 3,
     "timeColor": 4,
-    "bgColor": 5
+    "bgColor": 5,
+    "twentyFour": 6
   },
   "capabilities": [
       "configurable"

@@ -91,10 +91,12 @@ static Layer* add_marker(int x, int y, int w, int h) {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     s_time.hours = tick_time->tm_hour;
-    // s_time.hours -= (s_time.hours > 12) ? 12 : 0;
-    // if(s_time.hours == 0) {
-    //     s_time.hours = 12;
-    // }
+    if(!twenty_four) {
+	    s_time.hours -= (s_time.hours > 12) ? 12 : 0;
+	    if(s_time.hours == 0) {
+	        s_time.hours = 12;
+	    }
+    }
     s_time.minutes = tick_time->tm_min;
     // if(s_show_seconds){
         s_time.seconds = tick_time->tm_sec;
