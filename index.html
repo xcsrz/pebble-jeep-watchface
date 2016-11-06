@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JeepFace Config</title>
+	<link rel="stylesheet" type="text/css" href="lib/pebble-slate/dist/css/slate.min.css">
+</head>
+<body>
+
+	<div class="item-container">
+	  <div class="item-container-header">Display Type</div>
+	  <div class="item-container-content">
+	    <label class="item">
+	      Binary
+	      <input type="radio" class="item-radio" name="displayType" value="0">
+	    </label>
+	    <label class="item">
+	      Morse Code
+	      <input type="radio" class="item-radio" name="displayType" value="2">
+	    </label>
+	    <label class="item">
+	      Digital
+	      <input type="radio" class="item-radio" name="displayType" value="1">
+	    </label>
+		<label class="item">
+			Show Seconds
+			<input id="showSeconds" type="checkbox" class="item-checkbox" />
+		</label>
+		<div class="item-container-footer">
+			<strong>NOTE:</strong> this will drastically impact your battery life.
+		</div>
+		<label class="item">
+			24 Hour Clock
+			<input id="twentyFour" type="checkbox" class="item-checkbox" />
+		</label>
+
+	  </div>
+	</div>
+
+	<div class="item-container">
+		<div class="item-container-content">
+			<label class="item">
+				MB
+				<input type="radio" class="item-radio" name="jeepModel" value="0">
+			</label>
+			<label class="item">
+				CJ
+				<input type="radio" class="item-radio" name="jeepModel" value="1">
+			</label>
+			<label class="item">
+				YJ
+				<input type="radio" class="item-radio" name="jeepModel" value="2">
+			</label>
+			<label class="item">
+				TJ
+				<input type="radio" class="item-radio" name="jeepModel" value="3">
+			</label>
+			<label class="item">
+				JK
+				<input type="radio" class="item-radio" name="jeepModel" value="4">
+			</label>
+		</div>
+	</div>
+	<div class="item-container">
+		<div class="item-container-header">Color Options</div>
+		<div class="item-container-content">
+			<label class="item">
+				Jeep Color
+				<input id="jeepColor" type="text" value="#555500" class="item-color item-color-normal" />
+			</label>
+		</div>
+		<div class="item-container-content">
+			<label class="item">
+				Time Color
+				<input id="timeColor" type="text" value="#555500" class="item-color item-color-normal" />
+			</label>
+		</div>
+		<div class="item-container-content">
+			<label class="item">
+				Background Color
+				<input id="bgColor" type="text" value="#555500" class="item-color item-color-normal" />
+			</label>
+		</div>
+
+	</div>
+
+
+	<div class="item-container">
+		<div class="button-container">
+			<input id="saveButton" type="button" class="item-button" value="Save">
+		</div>
+	</div>
+
+
+	<script type="text/javascript" src="lib/pebble-slate/dist/js/slate.min.js"></script>
+	<script type="text/javascript" src="/js/config.js"></script>
+</body>
+</html>
