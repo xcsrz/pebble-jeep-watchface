@@ -9,3 +9,6 @@ push:
 
 screenshot:
 	pebble screenshot --phone 192.168.1.223	
+
+config:
+	pebble emu-app-config
