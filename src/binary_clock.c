@@ -31,7 +31,7 @@ static void draw_a_dot(GContext *ctx, int x, int y) {
     graphics_fill_rect(ctx, GRect(x+1, y+1, s_box_width-1, s_box_height-1), 3, GCornersAll);
 
     // main dot
-    graphics_context_set_fill_color(ctx, GColorMidnightGreen);
+    graphics_context_set_fill_color(ctx, time_color);
     graphics_fill_rect(ctx, GRect(x+1, y+1, s_box_width-2, s_box_height-2), 3, GCornersAll);
 }
 
