@@ -14,7 +14,7 @@ Pebble.addEventListener("showConfiguration",
         }
 
         // No valid image data, so use data URL to generate HTML with instructions
-        Pebble.openURL("http://cdn.segment.io:8080/");
+        Pebble.openURL("http://xcsrz.com/pebble-jeep-watchface/");
     });
 
 Pebble.addEventListener("webviewclosed",
