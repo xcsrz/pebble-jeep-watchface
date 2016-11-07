@@ -38,6 +38,10 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
         }
         if(s_time.hours == 0) {
             s_time.hours = 12;
+            s_time.pm = false;
+        }
+        else if(s_time.hours == 12) {
+            s_time.pm = true;
         }
     }
     s_time.minutes = tick_time->tm_min;
