@@ -31,7 +31,7 @@ static void update_my_clock() {
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     s_time.hours = tick_time->tm_hour;
-    if(!twenty_four) {
+    if(!clock_is_24h_style()) {
         if (s_time.hours > 12) {
     	    s_time.hours -= 12;
         	s_time.pm = true;

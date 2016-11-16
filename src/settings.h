@@ -2,7 +2,6 @@
 
 int display_type;
 bool show_seconds;
-bool twenty_four;
 GColor jeep_color;
 GColor time_color;
 GColor background_color;
