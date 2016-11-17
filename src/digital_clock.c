@@ -18,14 +18,22 @@ static GFont s_font;
 
 
 static void update_my_clock() {
-	static char s_buffer[128];
     text_layer_set_text_color(s_clock_layer, time_color);
+
+    static char s_buffer[15];
+    char *pos = s_buffer;
+
     if(show_seconds) {
-        snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
+        // snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d:%02d\n%s", s_time.hours, s_time.minutes, s_time.seconds, (s_time.pm) ? "PM" : "AM" );
+        pos += snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d:%02d", s_time.hours, s_time.minutes, s_time.seconds);
     } else {
-    	snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d\n%s", s_time.hours, s_time.minutes, (s_time.pm) ? "PM" : "AM" );
+        // snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d\n%s", s_time.hours, s_time.minutes, (s_time.pm) ? "PM" : "AM" );
+        pos += snprintf(s_buffer, sizeof(s_buffer), "%02d:%02d", s_time.hours, s_time.minutes);
     }
-    // APP_LOG(APP_LOG_LEVEL_DEBUG, s_buffer);
+
+    if(!clock_is_24h_style()) {
+        pos += snprintf(pos, sizeof(s_buffer) - strlen(s_buffer), " %s", (s_time.pm) ? "PM" : "AM");
+    }
 	text_layer_set_text(s_clock_layer, s_buffer);
 }
 

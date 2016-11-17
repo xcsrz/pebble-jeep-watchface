@@ -31,6 +31,7 @@ void watchface_load(Window *main_window) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Loaded status %d", initial_load);
     APP_LOG(APP_LOG_LEVEL_DEBUG, "SWITCHING TO %d FROM %d", current_display_type, display_type);
 	if(initial_load) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Unloading watchface before reloading");
 		unload_current_watchface();
 	}
     switch(display_type) {

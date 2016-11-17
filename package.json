@@ -1,0 +1,61 @@
+{
+  "version": "1.2.0",
+  "author": "xcsrz",
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.3"
+  },
+  "description": "A Pebble Time watchface themed for jeep folk",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/xcsrz/pebble-jeep-watchface.git"
+  },
+  "keywords": [],
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "type": "png",
+          "name": "IMAGE_FOREST",
+          "file": "images/forest.png"
+        },
+        {
+          "type": "png",
+          "name": "IMAGE_LOGO",
+          "file": "images/jeep_logo1.png"
+        },
+        {
+          "type": "font",
+          "name": "FONT_BLACK_OPS_26",
+          "file": "BlackOpsOne-Regular.ttf"
+        }
+      ]
+    },
+    "projectType": "native",
+    "uuid": "2c3e3423-27bf-47af-87df-0e050702482a",
+    "messageKeys": [
+      "type",
+      "model",
+      "seconds",
+      "jeepColor",
+      "timeColor",
+      "bgColor",
+      "twentyFour"
+    ],
+    "enableMultiJS": true,
+    "displayName": "Jeep Time",
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": true
+    },
+    "targetPlatforms": [
+      "basalt"
+    ],
+    "capabilities": [
+      "configurable"
+    ]
+  },
+  "name": "JeepTime"
+}
